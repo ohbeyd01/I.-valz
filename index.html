@@ -5,59 +5,134 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Valentine's Day for Ivy</title>
     <link rel="stylesheet" href="styles.css">
-
     <style>
-       body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background: linear-gradient(to bottom, #ffb6c1, #ff69b4);
-    color: white;
-    padding: 20px;
-}
-
-#auth-screen {
-    margin-top: 100px;
-}
-
-input, button {
-    margin: 10px;
-    padding: 10px;
-    font-size: 16px;
-}
-
-section {
-    padding: 50px 20px;
-    margin: 20px auto;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    width: 80%;
-}
-
-h1, h2 {
-    font-size: 28px;
-    text-shadow: 2px 2px #ff1493;
-}
-
-#gallery-display img {
-    width: 100px;
-    height: 100px;
-    margin: 5px;
-    border-radius: 10px;
-}
-
-/* Floating Heart Animation */
-@keyframes floatHearts {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-100vh); }
-}
-
-.heart {
-    position: absolute;
-    bottom: 0;
-    animation: floatHearts 5s infinite;
+        /* General Styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background: linear-gradient(to bottom, #ffafcc, #ff69b4);
+            color: white;
+            padding: 20px;
+            overflow-x: hidden;
         }
-        
-        
+
+        /* Password Screen */
+        #auth-screen {
+            margin-top: 100px;
+        }
+
+        input, button {
+            margin: 10px;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: none;
+        }
+
+        button {
+            background-color: #ff4081;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Sections */
+        section {
+            padding: 50px 20px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0px 0px 10px rgba(255, 20, 147, 0.4);
+        }
+
+        h1, h2 {
+            font-size: 28px;
+            text-shadow: 2px 2px #ff1493;
+        }
+
+        /* Floating Heart Animation */
+        @keyframes floatHearts {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+
+        .heart {
+            position: absolute;
+            bottom: 0;
+            font-size: 20px;
+            color: pink;
+            animation: floatHearts 5s infinite;
+        }
+
+        /* Improved Gallery */
+        #gallery-display {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* WhatsApp-style Chat */
+        #chat-box {
+            max-height: 300px;
+            overflow-y: auto;
+            background: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .message {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 10px;
+            display: inline-block;
+            max-width: 70%;
+        }
+
+        .sent {
+            background: #dcf8c6;
+            align-self: flex-end;
+        }
+
+        .received {
+            background: #e0e0e0;
+        }
+
+        #chat-input {
+            width: 80%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
     </style>
 </head>
 <body>
@@ -112,64 +187,66 @@ h1, h2 {
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-    startCountdown();
-});
-
-// Password Protection
-function checkPassword() {
-    const enteredPassword = document.getElementById("password").value;
-    const correctPassword = "Javy2025"; // Can be replaced with a secure method
-
-    if (enteredPassword === correctPassword) {
-        document.getElementById("auth-screen").style.display = "none";
-        document.getElementById("main-content").style.display = "block";
-    } else {
-        document.getElementById("error-message").innerText = "Wrong password!";
-    }
-}
-
-// Gallery Upload
-document.getElementById("fileUpload").addEventListener("change", function (event) {
-    const files = event.target.files;
-    const display = document.getElementById("gallery-display");
-
-    for (let file of files) {
-        const img = document.createElement("img");
-        img.src = URL.createObjectURL(file);
-        display.appendChild(img);
-    }
-});
-
-// Birthday Countdown
-function startCountdown() {
-    const birthdayDate = new Date("2025-12-10"); // Change to Ivy's actual birthday
-    setInterval(() => {
-        const now = new Date();
-        const diff = birthdayDate - now;
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        document.getElementById("birthday-countdown").innerText = `${days} days left!`;
-    }, 1000);
-}
-
-// Chat Functionality
-function sendMessage() {
-    const chatBox = document.getElementById("chat-box");
-    const input = document.getElementById("chat-input");
-    
-    if (input.value.trim() !== "") {
-        const msg = document.createElement("p");
-        msg.innerText = "You: " + input.value;
-        chatBox.appendChild(msg);
-        input.value = "";
-    }
-}
-
-// Peer-to-Peer Calls
-function startCall(type) {
-    alert(`Starting ${type} call... (Peer-to-peer feature will be added)`);
+        // Password Protection
+        function checkPassword() {
+            const enteredPassword = document.getElementById("password").value;
+            if (enteredPassword === "Javy2025") {
+                document.getElementById("auth-screen").style.display = "none";
+                document.getElementById("main-content").style.display = "block";
+            } else {
+                document.getElementById("error-message").innerText = "Wrong password!";
+            }
         }
-        
+
+        // Gallery Upload
+        document.getElementById("fileUpload").addEventListener("change", function (event) {
+            const files = event.target.files;
+            const display = document.getElementById("gallery-display");
+
+            for (let file of files) {
+                const img = document.createElement("img");
+                img.src = URL.createObjectURL(file);
+                const item = document.createElement("div");
+                item.classList.add("gallery-item");
+
+                const deleteBtn = document.createElement("button");
+                deleteBtn.innerText = "X";
+                deleteBtn.classList.add("delete-btn");
+                deleteBtn.onclick = () => item.remove();
+
+                item.appendChild(img);
+                item.appendChild(deleteBtn);
+                display.appendChild(item);
+            }
+        });
+
+        // WhatsApp-style Chat
+        function sendMessage() {
+            const chatBox = document.getElementById("chat-box");
+            const input = document.getElementById("chat-input");
+
+            if (input.value.trim() !== "") {
+                const msg = document.createElement("div");
+                msg.classList.add("message", "sent");
+                msg.innerText = input.value;
+                chatBox.appendChild(msg);
+                input.value = "";
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        }
+
+        // Birthday Countdown
+        function startCountdown() {
+            const birthdayDate = new Date("2025-12-10");
+            setInterval(() => {
+                const now = new Date();
+                const days = Math.floor((birthdayDate - now) / (1000 * 60 * 60 * 24));
+                document.getElementById("birthday-countdown").innerText = `${days} days left!`;
+            }, 1000);
+        }
+
+        document.addEventListener("DOMContentLoaded", startCountdown);
     </script>
 </body>
-</html>
+    </html>
+    
